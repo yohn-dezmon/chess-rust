@@ -6,8 +6,16 @@ Everything inside a module can access anything else in that same module.
 Everything outside that module can only access public members of that module.  
 
 
+# mod.rs
 
+in each folder you create, you include a `mod.rs` file that has lines like:
 
+```rust
+mod submodule1;
+mod submodule2;
+```
+
+for each submodule.
 
 ### Sources
 
