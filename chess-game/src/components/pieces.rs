@@ -106,3 +106,21 @@ impl King {
         King { points: 0 }
     }
 }
+
+// pub enum ChessPiece {
+//     Pawn(Pawn),
+//     Knight(Knight),
+//     Bishop(Bishop),
+//     Rook(Rook),
+//     Queen(Queen),
+//     King(King),
+// }
+
+pub struct ChessPieces {
+    pawns: Vec<Pawn>,
+    knights: Vec<Knight>,
+    bishops: Vec<Bishop>,
+    rooks: Vec<Rook>,
+    queen: Vec<Queen>,
+    king: Vec<King>,
+}
