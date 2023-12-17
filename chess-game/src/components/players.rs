@@ -1,12 +1,12 @@
 use crate::components::pieces::ChessPieces;
-use crate::components::teams::Team;
+use crate::components::color::Color;
 
 pub struct Player1 {
     // when to use String vs. &str
     user_name: String,
     total_points: i32,
     point_balance: i32,
-    team: Team,
+    team: Color,
     pieces: ChessPieces,
 }
 
@@ -17,8 +17,8 @@ impl Player1 {
             user_name: String::new(),
             total_points: 39,
             point_balance: 0,
-            team: Team::White
-            pieces: 
+            team: Color::White,
+            pieces: ChessPieces::new(),
         }
     }
 }
@@ -27,7 +27,7 @@ struct Player2 {
     user_name: String,
     total_points: i32,
     point_balance: i32,
-    team: Team,
+    team: Color,
 }
 
 impl Player2 {

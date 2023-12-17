@@ -1,12 +1,46 @@
+use crate::components::color::Color;
+
+#[derive(Debug, Clone, Copy)]
+pub enum PieceType {
+    Pawn,
+    Knight,
+    Bishop,
+    Rook,
+    Queen,
+    King,
+}
+
+#[derive(Debug)]
+pub struct ChessPiece {
+    piece_type: PieceType,
+    color: Color,
+    position_xy: Vec<i32>,
+    position_text: String,
+}
+
+// impl ChessPiece {
+//     pub fn new() -> Self {
+//         ChessPiece {
+//             piece_type: PieceType::Pawn,
+//             color: Color::Black,
+//             position_xy: vec![],
+//             position_text: String::new(),
+//         }
+//     }
+// }
+
 pub trait Piece {
     // fn move(&self);
 
     fn get_points(&self) -> i32;
+
+    // fn get_directed_movements(&self, piece: ChessPiece) -> Vec<Vec<i32>>;
 }
 
 #[derive(Debug)]
 pub struct Pawn {
     points: i32,
+    movements: Vec<Vec<i32>>,
 }
 
 impl Piece for Pawn {
@@ -18,13 +52,18 @@ impl Piece for Pawn {
 impl Pawn {
     pub fn new() -> Self {
         // set default value to 1 for Pawn
-        Pawn { points: 1 }
+        Pawn {
+            points: 1,
+            // this is later combined with direction
+            movements: vec![vec![1, 0]],
+        }
     }
 }
 
 #[derive(Debug)]
 pub struct Knight {
     points: i32,
+    movements: Vec<Vec<i32>>,
 }
 
 impl Piece for Knight {
@@ -35,13 +74,17 @@ impl Piece for Knight {
 
 impl Knight {
     pub fn new() -> Self {
-        Knight { points: 3 }
+        Knight {
+            points: 3,
+            movements: vec![vec![-2, 1], vec![-2, -1], vec![2, 1], vec![2, -1]],
+        }
     }
 }
 
 #[derive(Debug)]
 pub struct Bishop {
     points: i32,
+    movements: Vec<Vec<i32>>,
 }
 
 impl Piece for Bishop {
@@ -52,13 +95,18 @@ impl Piece for Bishop {
 
 impl Bishop {
     pub fn new() -> Self {
-        Bishop { points: 3 }
+        Bishop {
+            points: 3,
+            // TODO: figure out how to implement unbounded movements
+            movements: vec![vec![]],
+        }
     }
 }
 
 #[derive(Debug)]
 pub struct Rook {
     points: i32,
+    movements: Vec<Vec<i32>>,
 }
 
 impl Piece for Rook {
@@ -69,13 +117,17 @@ impl Piece for Rook {
 
 impl Rook {
     pub fn new() -> Self {
-        Rook { points: 5 }
+        Rook {
+            points: 5,
+            movements: vec![vec![]],
+        }
     }
 }
 
 #[derive(Debug)]
 pub struct Queen {
     points: i32,
+    movements: Vec<Vec<i32>>,
 }
 
 impl Piece for Queen {
@@ -86,13 +138,17 @@ impl Piece for Queen {
 
 impl Queen {
     pub fn new() -> Self {
-        Queen { points: 9 }
+        Queen {
+            points: 9,
+            movements: vec![vec![]],
+        }
     }
 }
 
 #[derive(Debug)]
 pub struct King {
     points: i32,
+    movements: Vec<Vec<i32>>,
 }
 
 impl Piece for King {
@@ -103,24 +159,55 @@ impl Piece for King {
 
 impl King {
     pub fn new() -> Self {
-        King { points: 0 }
+        King {
+            points: 0,
+            movements: vec![vec![1, 0], vec![-1, 0], vec![0, 1], vec![0, -1]],
+        }
     }
 }
 
-// pub enum ChessPiece {
-//     Pawn(Pawn),
-//     Knight(Knight),
-//     Bishop(Bishop),
-//     Rook(Rook),
-//     Queen(Queen),
-//     King(King),
-// }
-
 pub struct ChessPieces {
-    pawns: Vec<Pawn>,
-    knights: Vec<Knight>,
-    bishops: Vec<Bishop>,
-    rooks: Vec<Rook>,
-    queen: Vec<Queen>,
-    king: Vec<King>,
+    pawns: Vec<ChessPiece>,
+    knights: Vec<ChessPiece>,
+    bishops: Vec<ChessPiece>,
+    rooks: Vec<ChessPiece>,
+    queen: Vec<ChessPiece>,
+    king: Vec<ChessPiece>,
+}
+
+impl ChessPieces {
+    pub fn new() -> Self {
+        ChessPieces {
+            pawns: Vec::new(),
+            knights: Vec::new(),
+            bishops: Vec::new(),
+            rooks: Vec::new(),
+            queen: Vec::new(),
+            king: Vec::new(),
+        }
+    }
+}
+
+pub struct BlackPieces {
+    pieces: ChessPieces,
+}
+
+// the implementation of ChessPieces for the black pieces
+impl BlackPieces {
+    pub fn new() -> Self {
+        let mut pieces = Vec::new();
+        const COLOR: Color = Color::Black;
+        // add pawns
+        // do nested for loop so we can get coordinates...
+        for _ in 0..8 {
+            // instantiate a ChessPiece! with type = Pawn
+            ChessPiece { 
+                piece_type: PieceType::Pawn,
+                color: COLOR,
+                position_xy: 
+            }
+        }
+
+        BlackPieces { pieces }
+    }
 }
