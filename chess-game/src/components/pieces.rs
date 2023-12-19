@@ -18,6 +18,56 @@ pub struct ChessPiece {
     position_text: String,
 }
 
+pub struct ChessPieces {
+    pawns: Vec<ChessPiece>,
+    knights: Vec<ChessPiece>,
+    bishops: Vec<ChessPiece>,
+    rooks: Vec<ChessPiece>,
+    queen: Vec<ChessPiece>,
+    king: Vec<ChessPiece>,
+}
+
+impl ChessPieces {
+    pub fn new() -> Self {
+        ChessPieces {
+            pawns: Vec::new(),
+            knights: Vec::new(),
+            bishops: Vec::new(),
+            rooks: Vec::new(),
+            queen: Vec::new(),
+            king: Vec::new(),
+        }
+    }
+}
+
+pub struct BlackPieces {
+    pieces: ChessPieces,
+}
+
+const LETTERS: Vec<char> = vec!['a', 'b', 'c', 'd', 'e', 'f', 'g'];
+
+// the implementation of ChessPieces for the black pieces
+impl BlackPieces {
+    pub fn new() -> Self {
+        let mut pawns = Vec::new();
+        const COLOR: Color = Color::Black;
+        for letter in LETTERS {
+            for col in 0..8 {
+                let piece = ChessPiece {
+                    piece_type: PieceType::Pawn,
+                    color: COLOR,
+                    position_xy: vec![1, col],
+                    position_text: format!("{}7", letter),
+                };
+                pawns.push(piece);
+            }
+        }
+        BlackPieces {
+            pieces: ChessPieces { pawns: pawns },
+        }
+    }
+}
+
 // impl ChessPiece {
 //     pub fn new() -> Self {
 //         ChessPiece {
@@ -163,51 +213,5 @@ impl King {
             points: 0,
             movements: vec![vec![1, 0], vec![-1, 0], vec![0, 1], vec![0, -1]],
         }
-    }
-}
-
-pub struct ChessPieces {
-    pawns: Vec<ChessPiece>,
-    knights: Vec<ChessPiece>,
-    bishops: Vec<ChessPiece>,
-    rooks: Vec<ChessPiece>,
-    queen: Vec<ChessPiece>,
-    king: Vec<ChessPiece>,
-}
-
-impl ChessPieces {
-    pub fn new() -> Self {
-        ChessPieces {
-            pawns: Vec::new(),
-            knights: Vec::new(),
-            bishops: Vec::new(),
-            rooks: Vec::new(),
-            queen: Vec::new(),
-            king: Vec::new(),
-        }
-    }
-}
-
-pub struct BlackPieces {
-    pieces: ChessPieces,
-}
-
-// the implementation of ChessPieces for the black pieces
-impl BlackPieces {
-    pub fn new() -> Self {
-        let mut pieces = Vec::new();
-        const COLOR: Color = Color::Black;
-        // add pawns
-        // do nested for loop so we can get coordinates...
-        for _ in 0..8 {
-            // instantiate a ChessPiece! with type = Pawn
-            ChessPiece { 
-                piece_type: PieceType::Pawn,
-                color: COLOR,
-                position_xy: 
-            }
-        }
-
-        BlackPieces { pieces }
     }
 }
