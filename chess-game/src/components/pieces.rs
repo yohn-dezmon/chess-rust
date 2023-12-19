@@ -15,7 +15,7 @@ pub struct ChessPiece {
     piece_type: PieceType,
     color: Color,
     position_xy: Vec<i32>,
-    position_text: String,
+    position_text: String, // using String bc this will update throughout the game
 }
 
 pub struct ChessPieces {
@@ -23,21 +23,8 @@ pub struct ChessPieces {
     knights: Vec<ChessPiece>,
     bishops: Vec<ChessPiece>,
     rooks: Vec<ChessPiece>,
-    queen: Vec<ChessPiece>,
+    queen: Vec<ChessPiece>, // I made this a vector so we can remove pieces as the game progresses
     king: Vec<ChessPiece>,
-}
-
-impl ChessPieces {
-    pub fn new() -> Self {
-        ChessPieces {
-            pawns: Vec::new(),
-            knights: Vec::new(),
-            bishops: Vec::new(),
-            rooks: Vec::new(),
-            queen: Vec::new(),
-            king: Vec::new(),
-        }
-    }
 }
 
 pub struct BlackPieces {
@@ -46,7 +33,6 @@ pub struct BlackPieces {
 
 const LETTERS: Vec<char> = vec!['a', 'b', 'c', 'd', 'e', 'f', 'g'];
 
-// the implementation of ChessPieces for the black pieces
 impl BlackPieces {
     pub fn new() -> Self {
         let mut pawns = Vec::new();
@@ -62,22 +48,82 @@ impl BlackPieces {
                 pawns.push(piece);
             }
         }
+
+        let mut knights = Vec::new();
+        let knight_left = ChessPiece {
+            piece_type: PieceType::Knight,
+            color: COLOR,
+            position_xy: vec![0, 1],
+            position_text: String::from("b8"),
+        };
+        let knight_right = ChessPiece {
+            piece_type: PieceType::Knight,
+            color: COLOR,
+            position_xy: vec![0, 6],
+            position_text: String::from("g8"),
+        };
+        knights.push(knight_left);
+        knights.push(knight_right);
+
+        let mut bishops = Vec::new();
+        let bishop_left = ChessPiece {
+            piece_type: PieceType::Bishop,
+            color: COLOR,
+            position_xy: vec![0, 2],
+            position_text: String::from("c8"),
+        };
+        let bishop_right = ChessPiece {
+            piece_type: PieceType::Bishop,
+            color: COLOR,
+            position_xy: vec![0, 5],
+            position_text: String::from("f8"),
+        };
+        bishops.push(bishop_left);
+        bishops.push(bishop_right);
+
+        let mut rooks = Vec::new();
+        let rook_left = ChessPiece {
+            piece_type: PieceType::Bishop,
+            color: COLOR,
+            position_xy: vec![0, 0],
+            position_text: String::from("a8"),
+        };
+        let rook_right = ChessPiece {
+            piece_type: PieceType::Bishop,
+            color: COLOR,
+            position_xy: vec![0, 7],
+            position_text: String::from("h8"),
+        };
+        bishops.push(rook_left);
+        bishops.push(rook_right);
+
+        let mut queen = vec![ChessPiece {
+            piece_type: PieceType::Queen,
+            color: COLOR,
+            position_xy: vec![0, 3],
+            position_text: String::from("d8"),
+        }];
+
+        let mut king = vec![ChessPiece {
+            piece_type: PieceType::King,
+            color: COLOR,
+            position_xy: vec![0, 4],
+            position_text: String::from("e8"),
+        }];
+
         BlackPieces {
-            pieces: ChessPieces { pawns: pawns },
+            pieces: ChessPieces {
+                // Field init shorthand!
+                pawns,
+                knights,
+                bishops,
+                rooks,
+                queen,
+                king,
+            },
         }
     }
 }
-
-// impl ChessPiece {
-//     pub fn new() -> Self {
-//         ChessPiece {
-//             piece_type: PieceType::Pawn,
-//             color: Color::Black,
-//             position_xy: vec![],
-//             position_text: String::new(),
-//         }
-//     }
-// }
 
 pub trait Piece {
     // fn move(&self);
