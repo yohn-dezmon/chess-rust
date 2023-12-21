@@ -1,6 +1,6 @@
 mod components;
 use crate::components::pieces::{Bishop, King, Knight, Pawn, Piece, Queen, Rook};
-use crate::components::players::{Player1, Player2};
+// use crate::components::players::{Player1, Player2};
 
 fn main() {
     let pawn = Pawn::new();
