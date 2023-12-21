@@ -37,8 +37,12 @@ impl BlackPieces {
     pub fn new() -> Self {
         let mut pawns = Vec::new();
         const COLOR: Color = Color::Black;
-        for letter in LETTERS {
-            for col in 0..8 {
+        // for letter in LETTERS {
+        // can I make this same call later? or does this consume LETTERS?
+        let mut letter_iter = LETTERS.iter();
+
+        for col in 0..8 {
+            if let Some(letter) = letter_iter.next() {
                 let piece = ChessPiece {
                     piece_type: PieceType::Pawn,
                     color: COLOR,
@@ -46,8 +50,11 @@ impl BlackPieces {
                     position_text: format!("{}7", letter),
                 };
                 pawns.push(piece);
+            } else {
+                break;
             }
         }
+        // }
 
         let mut knights = Vec::new();
         let knight_left = ChessPiece {
@@ -112,6 +119,106 @@ impl BlackPieces {
         }];
 
         BlackPieces {
+            pieces: ChessPieces {
+                // Field init shorthand!
+                pawns,
+                knights,
+                bishops,
+                rooks,
+                queen,
+                king,
+            },
+        }
+    }
+}
+
+pub struct WhitePieces {
+    pieces: ChessPieces,
+}
+
+impl WhitePieces {
+    pub fn new() -> Self {
+        let mut pawns = Vec::new();
+        const COLOR: Color = Color::White;
+        let mut letter_iter = LETTERS.iter();
+
+        for col in 0..8 {
+            if let Some(letter) = letter_iter.next() {
+                let piece = ChessPiece {
+                    piece_type: PieceType::Pawn,
+                    color: COLOR,
+                    position_xy: vec![6, col],
+                    position_text: format!("{}7", letter),
+                };
+                pawns.push(piece);
+            } else {
+                break;
+            }
+        }
+
+        let mut knights = Vec::new();
+        let knight_left = ChessPiece {
+            piece_type: PieceType::Knight,
+            color: COLOR,
+            position_xy: vec![7, 1],
+            position_text: String::from("b1"),
+        };
+        let knight_right = ChessPiece {
+            piece_type: PieceType::Knight,
+            color: COLOR,
+            position_xy: vec![7, 6],
+            position_text: String::from("g1"),
+        };
+        knights.push(knight_left);
+        knights.push(knight_right);
+
+        let mut bishops = Vec::new();
+        let bishop_left = ChessPiece {
+            piece_type: PieceType::Bishop,
+            color: COLOR,
+            position_xy: vec![7, 2],
+            position_text: String::from("c1"),
+        };
+        let bishop_right = ChessPiece {
+            piece_type: PieceType::Bishop,
+            color: COLOR,
+            position_xy: vec![7, 5],
+            position_text: String::from("f1"),
+        };
+        bishops.push(bishop_left);
+        bishops.push(bishop_right);
+
+        let mut rooks = Vec::new();
+        let rook_left = ChessPiece {
+            piece_type: PieceType::Bishop,
+            color: COLOR,
+            position_xy: vec![7, 0],
+            position_text: String::from("a1"),
+        };
+        let rook_right = ChessPiece {
+            piece_type: PieceType::Bishop,
+            color: COLOR,
+            position_xy: vec![7, 7],
+            position_text: String::from("h1"),
+        };
+        bishops.push(rook_left);
+        bishops.push(rook_right);
+
+        let mut queen = vec![ChessPiece {
+            piece_type: PieceType::Queen,
+            color: COLOR,
+            position_xy: vec![7, 3],
+            position_text: String::from("d1"),
+        }];
+
+        let mut king = vec![ChessPiece {
+            piece_type: PieceType::King,
+            color: COLOR,
+            position_xy: vec![7, 4],
+            position_text: String::from("e1"),
+        }];
+
+        WhitePieces {
             pieces: ChessPieces {
                 // Field init shorthand!
                 pawns,
