@@ -146,7 +146,7 @@ impl WhitePieces {
                     piece_type: PieceType::Pawn,
                     color: Color::White,
                     position_xy: vec![6, col],
-                    position_text: format!("{}7", letter),
+                    position_text: format!("{}2", letter),
                 };
                 pawns.push(piece);
             } else {
@@ -378,6 +378,16 @@ mod tests {
         assert_eq!(
             &black_pieces.pieces.pawns[0].position_text,
             &String::from("a7")
+        );
+    }
+
+    #[test]
+    fn white_pieces_instantiation() {
+        let white_pieces = WhitePieces::new();
+        assert_eq!(white_pieces.pieces.pawns.len(), 8);
+        assert_eq!(
+            &white_pieces.pieces.pawns[0].position_text,
+            &String::from("a2")
         );
     }
 }
