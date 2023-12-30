@@ -11,7 +11,7 @@ pub type ChessBoard = Vec<Vec<Option<ChessPiece>>>;
 
 pub fn initialize_board() -> ChessBoard {
     // do I need to make board `mut`? I don't think so.
-    let board = vec![vec![SquareContent::Empty; 8]; 8];
+    let board = vec![vec![None; 8]; 8];
 
     // initialize black pieces into the board
     let black_pieces = BlackPieces::new();

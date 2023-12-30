@@ -16,7 +16,7 @@ pub struct ChessPiece {
     color: Color,
     position_xy: Vec<i32>,
     position_text: String, // using String bc this will update throughout the game
-    id: String,
+    start_position_id: String,
 }
 
 pub struct ChessPieces {
@@ -48,6 +48,7 @@ impl BlackPieces {
                     color: Color::Black,
                     position_xy: vec![1, col],
                     position_text: format!("{}7", letter),
+                    start_position_id: format!("{}7", letter),
                 };
                 pawns.push(piece);
             } else {
@@ -62,12 +63,14 @@ impl BlackPieces {
             color: Color::Black,
             position_xy: vec![0, 1],
             position_text: String::from("b8"),
+            start_position_id: String::from("b8"),
         };
         let knight_right = ChessPiece {
             piece_type: PieceType::Knight,
             color: Color::Black,
             position_xy: vec![0, 6],
             position_text: String::from("g8"),
+            start_position_id: String::from("g8"),
         };
         knights.push(knight_left);
         knights.push(knight_right);
@@ -78,12 +81,14 @@ impl BlackPieces {
             color: Color::Black,
             position_xy: vec![0, 2],
             position_text: String::from("c8"),
+            start_position_id: String::from("c8"),
         };
         let bishop_right = ChessPiece {
             piece_type: PieceType::Bishop,
             color: Color::Black,
             position_xy: vec![0, 5],
             position_text: String::from("f8"),
+            start_position_id: String::from("f8"),
         };
         bishops.push(bishop_left);
         bishops.push(bishop_right);
@@ -94,12 +99,14 @@ impl BlackPieces {
             color: Color::Black,
             position_xy: vec![0, 0],
             position_text: String::from("a8"),
+            start_position_id: String::from("a8"),
         };
         let rook_right = ChessPiece {
             piece_type: PieceType::Rook,
             color: Color::Black,
             position_xy: vec![0, 7],
             position_text: String::from("h8"),
+            start_position_id: String::from("h8"),
         };
         rooks.push(rook_left);
         rooks.push(rook_right);
@@ -109,6 +116,7 @@ impl BlackPieces {
             color: Color::Black,
             position_xy: vec![0, 3],
             position_text: String::from("d8"),
+            start_position_id: String::from("d8"),
         }];
 
         let mut king = vec![ChessPiece {
@@ -116,6 +124,7 @@ impl BlackPieces {
             color: Color::Black,
             position_xy: vec![0, 4],
             position_text: String::from("e8"),
+            start_position_id: String::from("e8"),
         }];
 
         BlackPieces {
@@ -148,6 +157,7 @@ impl WhitePieces {
                     color: Color::White,
                     position_xy: vec![6, col],
                     position_text: format!("{}2", letter),
+                    start_position_id: format!("{}2", letter),
                 };
                 pawns.push(piece);
             } else {
@@ -161,12 +171,14 @@ impl WhitePieces {
             color: Color::White,
             position_xy: vec![7, 1],
             position_text: String::from("b1"),
+            start_position_id: String::from("b1"),
         };
         let knight_right = ChessPiece {
             piece_type: PieceType::Knight,
             color: Color::White,
             position_xy: vec![7, 6],
             position_text: String::from("g1"),
+            start_position_id: String::from("g1"),
         };
         knights.push(knight_left);
         knights.push(knight_right);
@@ -177,37 +189,42 @@ impl WhitePieces {
             color: Color::White,
             position_xy: vec![7, 2],
             position_text: String::from("c1"),
+            start_position_id: String::from("c1"),
         };
         let bishop_right = ChessPiece {
             piece_type: PieceType::Bishop,
             color: Color::White,
             position_xy: vec![7, 5],
             position_text: String::from("f1"),
+            start_position_id: String::from("f1"),
         };
         bishops.push(bishop_left);
         bishops.push(bishop_right);
 
         let mut rooks = Vec::new();
         let rook_left = ChessPiece {
-            piece_type: PieceType::Bishop,
+            piece_type: PieceType::Rook,
             color: Color::White,
             position_xy: vec![7, 0],
             position_text: String::from("a1"),
+            start_position_id: String::from("a1"),
         };
         let rook_right = ChessPiece {
-            piece_type: PieceType::Bishop,
+            piece_type: PieceType::Rook,
             color: Color::White,
             position_xy: vec![7, 7],
             position_text: String::from("h1"),
+            start_position_id: String::from("h1"),
         };
-        bishops.push(rook_left);
-        bishops.push(rook_right);
+        rooks.push(rook_left);
+        rooks.push(rook_right);
 
         let mut queen = vec![ChessPiece {
             piece_type: PieceType::Queen,
             color: Color::White,
             position_xy: vec![7, 3],
             position_text: String::from("d1"),
+            start_position_id: String::from("d1"),
         }];
 
         let mut king = vec![ChessPiece {
@@ -215,6 +232,7 @@ impl WhitePieces {
             color: Color::White,
             position_xy: vec![7, 4],
             position_text: String::from("e1"),
+            start_position_id: String::from("e1"),
         }];
 
         WhitePieces {
