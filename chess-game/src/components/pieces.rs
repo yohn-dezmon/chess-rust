@@ -16,6 +16,7 @@ pub struct ChessPiece {
     color: Color,
     position_xy: Vec<i32>,
     position_text: String, // using String bc this will update throughout the game
+    id: String,
 }
 
 pub struct ChessPieces {
@@ -89,19 +90,19 @@ impl BlackPieces {
 
         let mut rooks = Vec::new();
         let rook_left = ChessPiece {
-            piece_type: PieceType::Bishop,
+            piece_type: PieceType::Rook,
             color: Color::Black,
             position_xy: vec![0, 0],
             position_text: String::from("a8"),
         };
         let rook_right = ChessPiece {
-            piece_type: PieceType::Bishop,
+            piece_type: PieceType::Rook,
             color: Color::Black,
             position_xy: vec![0, 7],
             position_text: String::from("h8"),
         };
-        bishops.push(rook_left);
-        bishops.push(rook_right);
+        rooks.push(rook_left);
+        rooks.push(rook_right);
 
         let mut queen = vec![ChessPiece {
             piece_type: PieceType::Queen,
