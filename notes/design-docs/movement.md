@@ -11,3 +11,15 @@ c. the borders of the board
 d. the movements * unbounded multiplier
     - e.g. a queen can move in any direction (up, down, left, right, and all diagonals)
     - but we then take those singular "movements" and multiply each of them by 
+
+# Unbounded movements
+
+Bishops:
+- unbound in up left, up right, down left, down right
+
+Queen:
+- unbounded in up, down, right, left, up left, up right, down left, down right 
+
+Rook:
+- unbounded in up, right, left, down
+
