@@ -46,12 +46,36 @@ def get_direction(start_coord: list[int], end_coord: list[int]) -> str:
         return 'right'
     if end_coord[1] < start_coord[1] and end_coord[1] == start_coord[1]:
         return 'left'
+    
+def in_range(start_coord, end_coord, direction, multiplier, color_dir) -> bool:
+    """
+    A rook's movements are valid if it only changes in either row or column.
+    i.e. the unbounded multiplier is specific to one location at a time.
+    at this point we know the direction, so it can be unbounded in THAT direction.
+
+    White Pawn:
+    valid: 
+        - start: [6,0]
+        - end:   [5,0]
+        - diff row: 1
+        - diff col: 0 
+        - direction_unit: [-1, 0]
+
+    """
+
+    direction_unit = movements[direction]
+
+    diff_row = end_coord[0] - start_coord[0]
+    diff_col = end_coord[1] - start_coord[1]
+
+
+
 
 
 def valid_move(
         start_coord: list[int], 
         end_coord: list[int],
-        valid_movements: dict,
+        valid_movements: set,
         multiplier: bool, 
         color_dir: int = None
                ) -> bool:
@@ -62,8 +86,23 @@ def valid_move(
     multiplier: if true, you can
     """
     direction = get_direction(start_coord, end_coord)
+    return (direction in valid_movements and in_range(start_coord, end_coord, multiplier, color_dir))
+    
+    # check that it is within range:
+
+white_pawn_movements = {
+    'up' : {'unbounded': False},
+    'up right': {'unbounded': False},
+    'up left': {'unbounded': False}
+}
+
+# white pawns
+# oh snap they can move diagonally if attacking!
+white_pawn_movements = set('up', 'up right', 'up left')
+white_pawn_multiplier = 1
 
 
+good_move = valid_move([6,0], [5,0], white_pawn_movements, white_pawn_multiplier, -1)
+print(good_move)
 
-
-
+invalid_move = valid_move([6,0])
