@@ -47,7 +47,7 @@ def get_direction(start_coord: list[int], end_coord: list[int]) -> str:
     if end_coord[1] < start_coord[1] and end_coord[1] == start_coord[1]:
         return 'left'
     
-def in_range(start_coord, end_coord, direction, multiplier, color_dir) -> bool:
+def in_range(start_coord, end_coord, direction, valid_movements) -> bool:
     """
     A rook's movements are valid if it only changes in either row or column.
     i.e. the unbounded multiplier is specific to one location at a time.
@@ -57,39 +57,39 @@ def in_range(start_coord, end_coord, direction, multiplier, color_dir) -> bool:
     valid: 
         - start: [6,0]
         - end:   [5,0]
-        - diff row: 1
+        - diff row: -1
         - diff col: 0 
-        - direction_unit: [-1, 0]
+        - direction_unit: [-1, 0] (up)
 
+        
+    invalid:
+        - start: [6,0]
+        - end: []
     """
 
     direction_unit = movements[direction]
+    diffs = [end_coord[0] - start_coord[0], end_coord[1] - start_coord[1]]
 
-    diff_row = end_coord[0] - start_coord[0]
-    diff_col = end_coord[1] - start_coord[1]
-
-
-
+    if valid_movements[direction]['unbounded']:
+        pass
+    else:
+        return diffs == direction_unit
 
 
 def valid_move(
         start_coord: list[int], 
         end_coord: list[int],
-        valid_movements: set,
-        multiplier: bool, 
-        color_dir: int = None
+        valid_movements: dict,
                ) -> bool:
-    
     """
-    
     color_dir: 1 for Black pawns, -1 for white pawns
     multiplier: if true, you can
     """
     direction = get_direction(start_coord, end_coord)
-    return (direction in valid_movements and in_range(start_coord, end_coord, multiplier, color_dir))
-    
-    # check that it is within range:
+    return (direction in valid_movements and in_range(start_coord, end_coord, direction, valid_movements))
 
+# aw crap, pawns can move up two only on the first move from their original position
+# gah, encoding that is going to suck.
 white_pawn_movements = {
     'up' : {'unbounded': False},
     'up right': {'unbounded': False},
@@ -102,7 +102,7 @@ white_pawn_movements = set('up', 'up right', 'up left')
 white_pawn_multiplier = 1
 
 
-good_move = valid_move([6,0], [5,0], white_pawn_movements, white_pawn_multiplier, -1)
+good_move = valid_move([6,0], [5,0], white_pawn_movements, -1)
 print(good_move)
 
 invalid_move = valid_move([6,0])
