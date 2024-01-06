@@ -93,6 +93,11 @@ def valid_move(
     direction = get_direction(start_coord, end_coord)
     return (direction in valid_movements and in_range(start_coord, end_coord, direction, valid_movements, move_count))
 
+
+"""
+Pawn testing
+"""
+
 white_pawn_movements = {
     'up' : {'unbounded': False},
     'up right': {'unbounded': False},
@@ -116,3 +121,16 @@ invalid_move = valid_move([6,0], [3,0], white_pawn_movements, 1)
 print("Should be false: ")
 print(invalid_move)
 
+
+"""
+Knight testing
+
+ok... the existing "movements" don't map correctly to knight movements.
+
+
+valid knight movement:
+start: [7,1]
+end: [5, 2]
+
+
+"""
