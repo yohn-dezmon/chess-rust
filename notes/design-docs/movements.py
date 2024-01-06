@@ -74,7 +74,6 @@ def in_range(start_coord, end_coord, direction, valid_movements, move_count) -> 
         pass
     else:
         # special case for Pawns' first move
-        # TODO: check that this evaluates correctly for diagonal movements!
         if move_count == 1:
             two_up_or_down = [unit_direction[0]*2, unit_direction[1]]
             return (diffs == unit_direction) or (diffs == two_up_or_down)
@@ -90,23 +89,15 @@ def valid_move(
         move_count: int = None # in reality, this attribute will only be on Pawns
                ) -> bool:
     """
-    color_dir: 1 for Black pawns, -1 for white pawns
-    multiplier: if true, you can
     """
     direction = get_direction(start_coord, end_coord)
     return (direction in valid_movements and in_range(start_coord, end_coord, direction, valid_movements, move_count))
 
-# aw crap, pawns can move up two only on the first move from their original position
-# gah, encoding that is going to suck.
 white_pawn_movements = {
     'up' : {'unbounded': False},
     'up right': {'unbounded': False},
     'up left': {'unbounded': False}
 }
-
-# white pawns
-# oh snap they can move diagonally if attacking!
-# white_pawn_movements = set('up', 'up right', 'up left')
 white_pawn_multiplier = 1
 
 good_move = valid_move([6,0], [5,0], white_pawn_movements, 1)
