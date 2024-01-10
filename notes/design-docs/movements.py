@@ -50,13 +50,38 @@ def in_range(start_coord: list[int],
              direction: list[int], 
              valid_movements: list[int], 
              move_count: Optional[int]) -> bool:
-    if end_coord[0] < ROWS and end_coord[1] < COLS:
+    if 0 <= end_coord[0] < ROWS and 0 <= end_coord[1] < COLS:
 
         if valid_movements[direction]['unbounded']:
             # At this point we know:
             # 1. the direction is valid
             # 2. the end position is in bounds
             # 3. the piece can move as many pieces in this direction as the board allows
+
+            # but! We still need to check that the diff is in the right ratio 
+            # e.g. up two over 1 is invalid for most pieces except for knight.
+            """
+            How can I check that the diffs simplifies to a unit_direction?
+            
+            Queen invalid (knight up right):
+            up right --> [-1, 1]
+            diffs = [-2, 1]
+            to get to x, (*2)
+            to get to y, (*1)
+            is [2,1] in queens unit movements? No.
+
+            Queen valid (up right):
+            up right --> [-1, 1]
+            diffs = [-4, 4]
+            divide diffs by the quotient of diffs/unit direction?
+
+            1. figure out how many times x goes into the x and y goes into the y
+            e.g. for valid, -1 goes into 4, -4 times, 1 goes into 4, 4 times.
+            (what about 0s though?)
+            2. check if diffs == unit_direction, if not continue de
+            """
+
+
             return True
         else:
             unit_direction = valid_movements[direction]['unit_direction']
@@ -165,3 +190,80 @@ print(valid_bishop_move)
 invalid_knight_move = valid_move([7,2], [7,1], bishop_unit_movements)
 print("Should be false: ")
 print(invalid_knight_move)
+
+invalid_knight_move_v2 = valid_move([7,2], [8,1], bishop_unit_movements)
+print("Should be false: ")
+print(invalid_knight_move_v2)
+
+
+"""
+Rook testing
+
+"""
+rook_unit_movements = {
+    'up': {'unbounded': True, 'unit_direction': [-1, 0]},
+    'left': {'unbounded': True, 'unit_direction': [0, -1]},
+    'right': {'unbounded': True, 'unit_direction': [0, 1]},
+    'down': {'unbounded': True, 'unit_direction': [1, 0]},
+}
+print("\n\n\n")
+print("Rook testing:")
+
+valid_rook_move = valid_move([7,0], [0, 0], rook_unit_movements)
+print("Should be true: ")
+print(valid_bishop_move)
+
+invalid_rook_move = valid_move([0,0], [-1,0], rook_unit_movements)
+print("Should be false: ")
+print(invalid_rook_move)
+
+invalid_rook_move_v2 = valid_move([7,0], [6,1], rook_unit_movements)
+print("Should be false: ")
+print(invalid_rook_move_v2)
+
+
+"""
+Queen Testing
+
+"""
+queen_unit_movements = {
+    'down':{'unbounded': True, 'unit_direction': [1,0]},# down (row increase)
+    'up':{'unbounded': True, 'unit_direction': [-1,0]}, # up (row decrease)
+    'right':{'unbounded': True, 'unit_direction': [0,1]},# right (col increase)
+    'left':{'unbounded': True, 'unit_direction': [0,-1]}, # left (col decrease)
+    'up left':{'unbounded': True, 'unit_direction': [-1, -1]}, # up left (row and col decrease)
+    'up right':{'unbounded': True, 'unit_direction': [-1, 1]}, # up right 
+    'down right':{'unbounded': True, 'unit_direction': [1, 1]}, # down right
+    'down left':{'unbounded': True, 'unit_direction': [1, -1]}, # down left
+}
+
+
+print("\n\n\n")
+print("QUEEN testing:")
+
+valid_queen_up_left = valid_move([7,3], [4, 0], queen_unit_movements)
+print("Should be true: ")
+print(valid_queen_up_left)
+
+valid_queen_up_right = valid_move([7,3], [3, 7], queen_unit_movements)
+print("Should be true: ")
+print(valid_queen_up_left)
+
+valid_queen_down_left = valid_move([3,3], [6, 0], queen_unit_movements)
+print("Should be true: ")
+print(valid_queen_down_left)
+
+valid_queen_down_right = valid_move([3,3], [7, 7], queen_unit_movements)
+print("Should be true: ")
+print(valid_queen_down_right)
+
+
+invalid_queen_oob = valid_move([7,3], [3,8], queen_unit_movements)
+print("Should be false: ")
+print(invalid_queen_oob)
+
+import pdb 
+pdb.set_trace()
+invalid_queen_move_like_knight = valid_move([7,3], [5,4], queen_unit_movements)
+print("Should be false: ")
+print(invalid_queen_move_like_knight)
