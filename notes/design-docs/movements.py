@@ -51,6 +51,8 @@ def in_range(start_coord: list[int],
              valid_movements: list[int], 
              move_count: Optional[int]) -> bool:
     if 0 <= end_coord[0] < ROWS and 0 <= end_coord[1] < COLS:
+        unit_direction = valid_movements[direction]['unit_direction']
+        diffs = [end_coord[0] - start_coord[0], end_coord[1] - start_coord[1]]
 
         if valid_movements[direction]['unbounded']:
             # At this point we know:
@@ -60,32 +62,25 @@ def in_range(start_coord: list[int],
 
             # but! We still need to check that the diff is in the right ratio 
             # e.g. up two over 1 is invalid for most pieces except for knight.
-            """
-            How can I check that the diffs simplifies to a unit_direction?
-            
-            Queen invalid (knight up right):
-            up right --> [-1, 1]
-            diffs = [-2, 1]
-            to get to x, (*2)
-            to get to y, (*1)
-            is [2,1] in queens unit movements? No.
+            unit_direction_increment = unit_direction[:]
+            if unit_direction == diffs:
+                return True
+            while (unit_direction_increment != diffs 
+                   and -7 <= unit_direction_increment[0] < ROWS 
+                   and -7 <= unit_direction_increment[1] < COLS):
+                # update unit_direction_increment by one unit direction 
+                unit_direction_increment[0] += unit_direction[0]
+                unit_direction_increment[1] += unit_direction[1]
 
-            Queen valid (up right):
-            up right --> [-1, 1]
-            diffs = [-4, 4]
-            divide diffs by the quotient of diffs/unit direction?
-
-            1. figure out how many times x goes into the x and y goes into the y
-            e.g. for valid, -1 goes into 4, -4 times, 1 goes into 4, 4 times.
-            (what about 0s though?)
-            2. check if diffs == unit_direction, if not continue de
-            """
-
-
-            return True
+                if unit_direction_increment == diffs:
+                    return True
+                elif ((unit_direction_increment[0] == diffs[0] and unit_direction_increment[1] != diffs[1]) or 
+                    (unit_direction_increment[1] == diffs[1] and unit_direction_increment[0] != diffs[0])
+                ):
+                    return False
+            return False
         else:
-            unit_direction = valid_movements[direction]['unit_direction']
-            diffs = [end_coord[0] - start_coord[0], end_coord[1] - start_coord[1]]
+            
             # special case for Pawns' first move
             if move_count == 1:
                 two_up_or_down = [unit_direction[0]*2, unit_direction[1]]
@@ -103,6 +98,8 @@ def valid_move(
         """
         valid_movements and start_coord will be part of the Piece object.
         """
+        if start_coord == end_coord:
+            return False
         direction = get_direction(start_coord, end_coord)
         return (direction in valid_movements and in_range(start_coord, end_coord, direction, valid_movements, move_count))
 
@@ -262,8 +259,8 @@ invalid_queen_oob = valid_move([7,3], [3,8], queen_unit_movements)
 print("Should be false: ")
 print(invalid_queen_oob)
 
-import pdb 
-pdb.set_trace()
+# import pdb
+# pdb.set_trace()
 invalid_queen_move_like_knight = valid_move([7,3], [5,4], queen_unit_movements)
 print("Should be false: ")
 print(invalid_queen_move_like_knight)
