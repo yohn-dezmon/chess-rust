@@ -259,6 +259,7 @@ invalid_queen_oob = valid_move([7,3], [3,8], queen_unit_movements)
 print("Should be false: ")
 print(invalid_queen_oob)
 
+# TODO: step through this to confirm it is working as expected
 # import pdb
 # pdb.set_trace()
 invalid_queen_move_like_knight = valid_move([7,3], [5,4], queen_unit_movements)
