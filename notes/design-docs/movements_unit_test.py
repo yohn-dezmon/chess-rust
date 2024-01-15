@@ -1,5 +1,5 @@
 import pytest
-from movements import get_direction, in_range, valid_move
+from movements import get_direction, valid_move
 
 
 def test_get_direction() -> None:
@@ -100,3 +100,66 @@ def test_bishop_moves() -> None:
 
     invalid_bishop_move_v2 = valid_move([7, 2], [8, 1], bishop_unit_movements)
     assert not invalid_bishop_move_v2
+
+
+def test_rook_moves() -> None:
+    rook_unit_movements = {
+        "up": {"unbounded": True, "unit_direction": [-1, 0]},
+        "left": {"unbounded": True, "unit_direction": [0, -1]},
+        "right": {"unbounded": True, "unit_direction": [0, 1]},
+        "down": {"unbounded": True, "unit_direction": [1, 0]},
+    }
+
+    valid_rook_move = valid_move([7, 0], [0, 0], rook_unit_movements)
+    assert valid_rook_move
+
+    invalid_rook_move = valid_move([0, 0], [-1, 0], rook_unit_movements)
+    assert not invalid_rook_move
+
+    invalid_rook_move_v2 = valid_move([7, 0], [6, 1], rook_unit_movements)
+    assert not invalid_rook_move_v2
+
+
+def test_queen_moves() -> None:
+    queen_unit_movements = {
+        "down": {"unbounded": True, "unit_direction": [1, 0]},  # down (row increase)
+        "up": {"unbounded": True, "unit_direction": [-1, 0]},  # up (row decrease)
+        "right": {"unbounded": True, "unit_direction": [0, 1]},  # right (col increase)
+        "left": {"unbounded": True, "unit_direction": [0, -1]},  # left (col decrease)
+        "up left": {
+            "unbounded": True,
+            "unit_direction": [-1, -1],
+        },  # up left (row and col decrease)
+        "up right": {"unbounded": True, "unit_direction": [-1, 1]},  # up right
+        "down right": {"unbounded": True, "unit_direction": [1, 1]},  # down right
+        "down left": {"unbounded": True, "unit_direction": [1, -1]},  # down left
+    }
+    valid_queen_up_left = valid_move([7, 3], [4, 0], queen_unit_movements)
+    assert valid_queen_up_left
+
+    valid_queen_up_right = valid_move([7, 3], [3, 7], queen_unit_movements)
+    assert valid_queen_up_right
+
+    valid_queen_down_left = valid_move([3, 3], [6, 0], queen_unit_movements)
+    assert valid_queen_down_left
+
+    valid_queen_down_right = valid_move([3, 3], [7, 7], queen_unit_movements)
+    assert valid_queen_down_right
+
+    valid_queen_up = valid_move([7, 3], [0, 3], queen_unit_movements)
+    assert valid_queen_up
+
+    valid_queen_down = valid_move([3, 3], [7, 3], queen_unit_movements)
+    assert valid_queen_down
+
+    valid_queen_right = valid_move([7, 3], [7, 4], queen_unit_movements)
+    assert valid_queen_right
+
+    valid_queen_left = valid_move([3, 3], [3, 2], queen_unit_movements)
+    assert valid_queen_left
+
+    invalid_queen_oob = valid_move([7, 3], [3, 8], queen_unit_movements)
+    assert not invalid_queen_oob
+
+    invalid_queen_move_like_knight = valid_move([7, 3], [5, 4], queen_unit_movements)
+    assert not invalid_queen_move_like_knight
