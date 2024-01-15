@@ -84,6 +84,19 @@ def test_knight_moves():
     assert not invalid_knight_move
 
 
+def test_bishop_moves() -> None:
+    bishop_unit_movements = {
+        "up right": {"unbounded": True, "unit_direction": [-1, 1]},
+        "up left": {"unbounded": True, "unit_direction": [-1, -1]},
+        "down right": {"unbounded": True, "unit_direction": [1, 1]},
+        "down left": {"unbounded": True, "unit_direction": [1, -1]},
+    }
 
+    valid_bishop_move = valid_move([7, 2], [2, 7], bishop_unit_movements)
+    assert valid_bishop_move
 
+    invalid_bishop_move = valid_move([7, 2], [7, 1], bishop_unit_movements)
+    assert not invalid_bishop_move
 
+    invalid_bishop_move_v2 = valid_move([7, 2], [8, 1], bishop_unit_movements)
+    assert not invalid_bishop_move_v2
