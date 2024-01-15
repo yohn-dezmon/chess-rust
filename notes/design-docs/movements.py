@@ -1,14 +1,3 @@
-# white queen
-# movements = {
-#     'down': [1,0], # down (row increase)
-#     'up': [-1,0], # up (row decrease)
-#     'right': [0,1], # right (col increase)
-#     'left': [0,-1], # left (col decrease)
-#     'up left': [-1, -1], # up left (row and col decrease)
-#     'up right': [-1, 1], # up right 
-#     'down right': [1, 1], # down right
-#     'down left': [1, -1], # down left
-# }
 from typing import Optional
 
 ROWS = 8
@@ -42,7 +31,7 @@ def get_direction(start_coord: list[int], end_coord: list[int]) -> str:
     
     if end_coord[1] > start_coord[1] and end_coord[0] == start_coord[0]:
         return 'right'
-    if end_coord[1] < start_coord[1] and end_coord[1] == start_coord[1]:
+    if end_coord[1] < start_coord[1] and end_coord[0] == start_coord[0]:
         return 'left'
     
 def in_range(start_coord: list[int], 
@@ -74,13 +63,26 @@ def in_range(start_coord: list[int],
 
                 if unit_direction_increment == diffs:
                     return True
+                # TODO: I'm not sure if while we're decreasing from 1 to 0 to -1 if this will run into bugs
+                # so make sure we set up a unit test going over a range of x and y values to make sure these 
+                # 0 cases work as intended
+                elif unit_direction[0] == 0:
+                    # (right/left)
+                    # I'm making these separate inner if statements because I want the above elif to evaluate to true to 
+                    # prevent hitting the final elif in the event on no lateral or veritcal movement
+                    if unit_direction_increment[1] == diffs[1]:
+                        return True
+                elif unit_direction[1] == 0:
+                    # (up/down)
+                    if unit_direction_increment[0] == diffs[0]:
+                        return True
                 elif ((unit_direction_increment[0] == diffs[0] and unit_direction_increment[1] != diffs[1]) or 
                     (unit_direction_increment[1] == diffs[1] and unit_direction_increment[0] != diffs[0])
                 ):
+                    # this elif should only get evaluated if neither the x or y unit_direction are 0 
                     return False
             return False
         else:
-            
             # special case for Pawns' first move
             if move_count == 1:
                 two_up_or_down = [unit_direction[0]*2, unit_direction[1]]
@@ -163,7 +165,6 @@ print(invalid_knight_move)
 
 """
 Bishop testing
-
 
 valid bishop movement:
 [7, 2] --> [2, 7]
@@ -254,14 +255,26 @@ valid_queen_down_right = valid_move([3,3], [7, 7], queen_unit_movements)
 print("Should be true: ")
 print(valid_queen_down_right)
 
+valid_queen_up = valid_move([7,3], [0, 3], queen_unit_movements)
+print("Should be true: ")
+print(valid_queen_up)
+
+valid_queen_down = valid_move([3,3], [7, 3], queen_unit_movements)
+print("Should be true: ")
+print(valid_queen_down)
+
+valid_queen_right = valid_move([7,3], [7, 4], queen_unit_movements)
+print("Should be true right: ")
+print(valid_queen_right)
+
+valid_queen_left = valid_move([3,3], [3, 2], queen_unit_movements)
+print("Should be true left: ")
+print(valid_queen_left)
 
 invalid_queen_oob = valid_move([7,3], [3,8], queen_unit_movements)
 print("Should be false: ")
 print(invalid_queen_oob)
 
-# TODO: step through this to confirm it is working as expected
-# import pdb
-# pdb.set_trace()
 invalid_queen_move_like_knight = valid_move([7,3], [5,4], queen_unit_movements)
 print("Should be false: ")
 print(invalid_queen_move_like_knight)

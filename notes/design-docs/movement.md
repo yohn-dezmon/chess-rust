@@ -48,3 +48,23 @@ Rook:
             e.g. for valid, -1 goes into 4, -4 times, 1 goes into 4, 4 times.
             (what about 0s though?)
             2. check if diffs == unit_direction, if not continue de
+
+
+
+
+                This might have to be different based on (up, down, right, left) and (up right, up left, down right, down left)
+
+                I think what I have currently works for diagonal directions.
+                I don't think it works for when one of the unit directions is 0...
+                wait uh... it might?
+
+                valid queen down:
+                start: [3, 3]
+                end: [7, 3]
+                diff = [4, 0]
+                unit_direction = [1, 0]
+
+                ok the problem is in the elif check, because 0 is already the right y value but x is still incrementing.
+
+                if unit direction x is 0, then only check unit_direction_increment y
+                if unit direction y is 0, then only check unit_direction_increment y
