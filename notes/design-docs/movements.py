@@ -12,9 +12,6 @@ def get_direction(start_coord: list[int], end_coord: list[int]) -> str:
     no_vertical = end_coord[0] == start_coord[0]
     no_horizontal = end_coord[1] == start_coord[1]
     """
-    if start_coord[0] == end_coord[0] and start_coord[1] == end_coord[1]:
-        return 'no movement'
-
     if end_coord[0] < start_coord[0] and end_coord[1] > start_coord[1]:
         return 'up right'
     if end_coord[0] < start_coord[0] and end_coord[1] < start_coord[1]:
@@ -106,61 +103,7 @@ def valid_move(
         return (direction in valid_movements and in_range(start_coord, end_coord, direction, valid_movements, move_count))
 
 
-white_pawn_movements = {
-    'up' : {'unbounded': False, 'unit_direction': [-1, 0]},
-    'up right': {'unbounded': False, 'unit_direction': [-1, 1]},
-    'up left': {'unbounded': False, 'unit_direction': [-1, -1]}
-}
-print("PAWN testing:")
-valid_white_pawn_move = valid_move([6,0], [5,0], white_pawn_movements, 1)
-print("Should be true: ")
-print(valid_white_pawn_move)
 
-valid_white_pawn_strt_move = valid_move([6, 0], [4, 0], white_pawn_movements, 1)
-print("Should be true: ")
-print(valid_white_pawn_strt_move)
-
-invalid_white_pawn_2nd_move = valid_move([4, 0], [2, 0], white_pawn_movements, 2)
-print("Should be false: ")
-print(invalid_white_pawn_2nd_move)
-
-bad_diagonal_first_move = valid_move([6, 0], [4, 2], white_pawn_movements, 1)
-print("Should be false: ")
-print(bad_diagonal_first_move)
-
-invalid_move = valid_move([6,0], [3,0], white_pawn_movements, 1)
-print("Should be false: ")
-print(invalid_move)
-
-
-"""
-Knight testing
-
-
-valid knight movement:
-start: [7,1]
-end: [5, 2]
-
-invalid knight movement:
-start: [7,1]
-end: [6,2]
-"""
-knight_unit_movements = {
-    'up right': {'unbounded': False, 'unit_direction': [-2, 1]},
-    'up left': {'unbounded': False, 'unit_direction': [-2, -1]},
-    'down right': {'unbounded': False, 'unit_direction': [2, 1]},
-    'down left': {'unbounded': False, 'unit_direction': [2, -1]},
-}
-print("\n\n\n")
-print("KNIGHT testing:")
-
-valid_knight_move = valid_move([7,1], [5, 2], knight_unit_movements)
-print("Should be true: ")
-print(valid_knight_move)
-
-invalid_knight_move = valid_move([7,1], [6,2], knight_unit_movements)
-print("Should be false: ")
-print(invalid_knight_move)
 
 
 """
