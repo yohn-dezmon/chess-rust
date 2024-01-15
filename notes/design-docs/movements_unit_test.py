@@ -163,3 +163,6 @@ def test_queen_moves() -> None:
 
     invalid_queen_move_like_knight = valid_move([7, 3], [5, 4], queen_unit_movements)
     assert not invalid_queen_move_like_knight
+
+
+# TODO: King unit tests
