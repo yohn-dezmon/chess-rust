@@ -6,12 +6,10 @@ use crate::components::pieces::{BlackPieces, ChessPiece, PieceType, WhitePieces}
 // (b) matrix coordinates (e.g. (0, 0)) [done]
 // (c) Option<ChessPiece> [done]
 
-// TODO: update type to be &ChessPiece
-pub type ChessBoard = Vec<Vec<Option<ChessPiece>>>;
+pub type ChessBoard = Vec<Vec<Option<&ChessPiece>>>;
 
 pub fn initialize_board() -> ChessBoard {
-    // do I need to make board `mut`? I don't think so.
-    let board = vec![vec![None; 8]; 8];
+    let mut board = vec![vec![None; 8]; 8];
 
     // initialize black pieces into the board
     let black_pieces = BlackPieces::new();
@@ -22,14 +20,19 @@ pub fn initialize_board() -> ChessBoard {
     for pawn in &black_pieces.pawns {
         let row = &pawn.position_xy[0];
         let col = &pawn.position_xy[1];
-        // I think this creates a new instance of the pawn that
-        // is stored at this board location
-        // so if we need to remove this piece later from a player's pieces,
-        // we'll need to use its
-        board[row][col] = Some(*pawn);
+
+        board[row][col] = &pawn;
     }
 
     // initialize white pieces into the board
+    let white_pieces = WhitePieces::new();
+
+    for pawn in &white_pieces.pawns {
+        let row = &pawn.position_xy[0];
+        let col = &pawn.position_xy[1];
+
+        board[row][col] = &pawn;
+    }
 
     board
 }
