@@ -68,3 +68,12 @@ Rook:
 
                 if unit direction x is 0, then only check unit_direction_increment y
                 if unit direction y is 0, then only check unit_direction_increment y
+
+# Integrating the logic into the existing Rust code base
+
+- should `valid_movements()` be a function on one of the traits/structs in the `pieces` module?
+
+
+What is the structure of valid_movements again?
+- dict
+- 
