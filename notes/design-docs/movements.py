@@ -37,7 +37,7 @@ def in_range(
     start_coord: list[int],
     end_coord: list[int],
     direction: list[int],
-    valid_movements: list[int],
+    valid_movements: dict,
     move_count: Optional[int],
 ) -> bool:
     if 0 <= end_coord[0] < ROWS and 0 <= end_coord[1] < COLS:
